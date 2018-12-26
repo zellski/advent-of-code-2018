@@ -2,6 +2,10 @@ cmake_minimum_required(VERSION 3.0.0)
 project(AdventOfCode2018 VERSION 0.1.0)
 set(CMAKE_CXX_STANDARD 17)
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_CXX_FLAGS "-fsanitize=address -fsanitize=leak")
+set(CMAKE_BUILD_TYPE Debug)
+
 include(CTest)
 enable_testing()
 
@@ -12,10 +16,11 @@ include_directories(${CONAN_INCLUDE_DIRS})
 
 list(APPEND COMMON_SOURCES utils.hpp)
 
-add_executable(day1 ${COMMON_SOURCES} day1.cpp)
-add_executable(day2 ${COMMON_SOURCES} day2.cpp)
-add_executable(day3 ${COMMON_SOURCES} day3.cpp)
-add_executable(day4 ${COMMON_SOURCES} day4.cpp)
+foreach(DAY_NUMBER RANGE 1 31)
+    if(EXISTS day${DAY_NUMBER}.cpp)
+        add_executable(day${DAY_NUMBER} ${COMMON_SOURCES} day${DAY_NUMBER}.cpp)
+    endif()
+endforeach()
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
