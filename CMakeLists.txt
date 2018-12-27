@@ -11,14 +11,22 @@ enable_testing()
 
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
-link_libraries(${CONAN_LIBS})
-include_directories(${CONAN_INCLUDE_DIRS})
 
 list(APPEND COMMON_SOURCES utils.hpp)
 
 foreach(DAY_NUMBER RANGE 1 31)
-    if(EXISTS day${DAY_NUMBER}.cpp)
+    if(EXISTS ${CMAKE_SOURCE_DIR}/day${DAY_NUMBER}.cpp)
         add_executable(day${DAY_NUMBER} ${COMMON_SOURCES} day${DAY_NUMBER}.cpp)
+        target_include_directories(
+            day${DAY_NUMBER}
+            PRIVATE
+            ${CONAN_INCLUDE_DIRS}
+            "third_party"
+        )
+        target_link_libraries(
+            day${DAY_NUMBER}
+            ${CONAN_LIBS}
+        )
     endif()
 endforeach()
 
