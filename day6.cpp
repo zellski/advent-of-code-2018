@@ -71,21 +71,27 @@ void part_one() {
   int height = (1 + y_max - y_min) + 2 * FLAGS_padding;
   uint8_t pixels[width * height * 3] = {0};
   Square squares[width][height];
+  int safe_region_size = 0;
   for (int xx = 0; xx < width; xx++) {
     for (int yy = 0; yy < height; yy++) {
       Square& square = squares[yy][xx];
       {
         int x = x_min + xx - FLAGS_padding;
         int y = y_min + yy - FLAGS_padding;
+        int distance_sum = 0;
         for (int ii = 0; ii < coords.size(); ii++) {
           Coordinate& coord = coords[ii];
           int dist = std::abs(coord.x - x) + std::abs(coord.y - y);
+          distance_sum += dist;
           if (square.distance == -1 || dist < square.distance) {
             square.distance = dist;
             square.owner = &coord;
           } else if (dist == square.distance) {
             square.owner = nullptr;
           }
+        }
+        if (distance_sum < 10000) {
+          safe_region_size++;
         }
       }
       if (square.owner != nullptr) {
@@ -117,6 +123,9 @@ void part_one() {
     }
   });
   stbi_write_png("day6-map.png", width, height, 3, (void*)pixels, 0);
+  std::printf("For viewing pleasure, a bitmap representation has been written to day6-map.png.\n");
+
+  std::printf("\nPart two: safe region size = %d.\n", safe_region_size);
 }
 
 void part_two() {}
