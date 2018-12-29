@@ -71,7 +71,7 @@ int node_value(std::shared_ptr<const Node> node) {
     return sum;
   }
   int sum = 0;
-  for (const int n : node->metadata) {
+  for (const uint n : node->metadata) {
     if (n >= 1 && n <= node->children.size()) {
       sum += node_value(node->children.at(n - 1));
     }

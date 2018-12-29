@@ -34,7 +34,7 @@ void part_one() {
 void parse_line(std::string line, bool& has_two, bool& has_three) {
   has_two = has_three = false;
   int char_count[0x100] = {0};
-  for_each(line.begin(), line.end(), [&](const char c) { char_count[c]++; });
+  for_each(line.begin(), line.end(), [&](const unsigned char c) { char_count[c]++; });
   for (int i = 0; i < 0x100; i++) {
     if (char_count[i] == 2) {
       has_two = true;

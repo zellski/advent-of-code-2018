@@ -27,6 +27,8 @@ foreach(DAY_NUMBER RANGE 1 31)
             day${DAY_NUMBER}
             ${CONAN_LIBS}
         )
+        target_compile_options(day${DAY_NUMBER} PRIVATE "-Wall")
+
     endif()
 endforeach()
 
